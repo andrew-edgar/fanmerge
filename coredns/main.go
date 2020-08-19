@@ -24,7 +24,7 @@ import (
 	_ "github.com/coredns/coredns/plugin/log"
 	_ "github.com/coredns/coredns/plugin/reload"
 
-	_ "github.com/networkservicemesh/fanmerge"
+	_ "github.com/andrew-edgar/fanmerge"
 )
 
 func init() {
