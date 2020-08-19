@@ -1,4 +1,4 @@
-module github.com/networkservicemesh/fanmerge
+module github.com/andrew-edgar/fanmerge
 
 go 1.14
 
