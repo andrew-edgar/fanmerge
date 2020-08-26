@@ -54,7 +54,7 @@ func mergeResponse(left, right *response) *response {
 			// We want to randomly pick how to merge this
 			left.response.Answer = append(left.response.Answer,right.response.Answer...)
 			rand.Shuffle(len(left.response.Answer), func(i, j int) { left.response.Answer[i], left.response.Answer[j] = left.response.Answer[j], left.response.Answer[i]})
-			log.Debug("Answer is ", left.response.Answer)
+			log.Error("Answer is ", left.response.Answer)
 			return left
 	}
 	return nil
