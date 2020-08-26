@@ -52,9 +52,11 @@ func mergeResponse(left, right *response) *response {
 	if left.response.MsgHdr.Rcode == dns.RcodeSuccess &&
 		right.response.MsgHdr.Rcode == dns.RcodeSuccess {
 			// We want to randomly pick how to merge this
-			if rand.Intn(2) == 1 {
+			if rand.Intn(1000) % 2 == 1 {
+				log.Info("append right to left")
 				left.response.Answer = append(left.response.Answer,right.response.Answer...)
 			} else {
+				log.Info("append left to right")
 				left.response.Answer = append(right.response.Answer,left.response.Answer...)
 			}
 			return left

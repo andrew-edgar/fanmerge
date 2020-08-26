@@ -7,7 +7,7 @@ You can build Coredns image via source code of Corends for this case you need to
 $ cd $GOPATH
 $ git clone https://github.com/coredns/coredns
 $ cd coredns
-$ echo fanmerge:github.com/andrewedgar/fanmerge >> plugin.cfg
+$ echo fanmerge:github.com/andrew-edgar/fanmerge >> plugin.cfg
 $ make
 ```
 
