@@ -21,6 +21,7 @@ import (
 	"crypto/tls"
 	"errors"
 	"time"
+	"math/rand"
 
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/debug"
@@ -47,6 +48,8 @@ type Fanmerge struct {
 
 // New returns reference to new Fanmerge plugin instance with default configs.
 func New() *Fanmerge {
+	// Seed the random generator to produce random results in the output
+	rand.Seed(time.Now().UnixNano())
 	return &Fanmerge{
 		tlsConfig:      new(tls.Config),
 		net:            "udp",

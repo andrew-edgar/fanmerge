@@ -18,6 +18,7 @@ package fanmerge
 
 import (
 	"time"
+	"math/rand"
 
 	"github.com/miekg/dns"
 )
@@ -50,7 +51,12 @@ func mergeResponse(left, right *response) *response {
 	}
 	if left.response.MsgHdr.Rcode == dns.RcodeSuccess &&
 		right.response.MsgHdr.Rcode == dns.RcodeSuccess {
-			left.response.Answer = append(left.response.Answer,right.response.Answer...)
+			// We want to randomly pick how to merge this
+			if rand.Intn(2) == 1 {
+				left.response.Answer = append(left.response.Answer,right.response.Answer...)
+			} else {
+				left.response.Answer = append(right.response.Answer,left.response.Answer...)
+			}
 			return left
 	}
 	return nil
