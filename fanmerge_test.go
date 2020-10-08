@@ -106,6 +106,11 @@ func makeRecordA(rr string) *dns.A {
 	return r.(*dns.A)
 }
 
+func makeRecordCNAME(rr string) *dns.CNAME {
+	r, _ := dns.NewRR(rr)
+	return r.(*dns.CNAME)
+}
+
 type fanmergeTestSuite struct {
 	suite.Suite
 	network string
@@ -331,7 +336,8 @@ func (t *fanmergeTestSuite) TestTwoServers() {
 	s2 := newServer(t.network, func(w dns.ResponseWriter, r *dns.Msg) {
 		if r.Question[0].Name == testQuery {
 			msg := dns.Msg{
-				Answer: []dns.RR{makeRecordA("example1 3600	IN	A 10.1.1.2")},
+				Answer: []dns.RR{makeRecordA("example1 3600	IN	A 10.1.1.2"),
+												 makeRecordCNAME("example1 3600	IN	CNAME example1.org.")},
 			}
 			mutex.Lock()
 			answerCount1++
