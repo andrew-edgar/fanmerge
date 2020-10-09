@@ -1,0 +1,65 @@
+---
+resources:
+- name: fanmerge
+  type: git
+  source:
+    uri: https://github.com/andrew-edgar/fanmerge
+# - name: git-deploy-scripts
+#   source:
+#     branch: main
+#     private_key: ((git-private-key))
+#     uri: git@github.ibm.com:coligo/deploy-scripts.git
+#   type: git
+- check_every: 1h
+  name: rc-coligo-base-build-image
+  source:
+    password: ((concourse-ci-bot-apikey))
+    repository: uk.icr.io/concourse/coligo-base-build-image
+    tag: latest
+    username: iamapikey
+  type: docker-image
+
+jobs:
+- name: build-coredns
+  public: true
+  plan:
+  - get: fanmerge
+    trigger: true
+  - get: rc-coligo-base-build-image
+  - task: do-build
+    image: rc-coligo-base-build-image
+    params:
+      DOCKER_API_KEY: ((coligo-test-apikey))
+    privileged: true
+    config:
+      inputs:
+      - name: fanmerge
+      platform: linux
+      run:
+        path: /bin/bash
+        args:
+        - -ec
+        - |
+          # Start Docker Daemon (and set a trap to stop it once this script is done)
+          echo 'DOCKER_OPTS="--data-root /scratch/docker --max-concurrent-downloads 10"' > /etc/default/docker
+          service docker start
+          service docker status
+          trap 'service docker stop' EXIT
+          sleep 10
+
+          echo $GOPATH
+          pushd $GOPATH
+            git clone https://github.com/coredns/coredns
+            cd coredns
+            git checkout v1.7.1
+            echo fanmerge:github.com/andrew-edgar/fanmerge >> plugin.cfg
+            make
+          popd
+          cp fanmerge/coredns/Makefile.release $GOPATH/coredns
+          pushd $GOPATH
+            make -f Makefile.release release
+            make -f Makefile.release docker
+
+            docker login -u iamapikey -p $DOCKER_API_KEY us.icr.io
+            docker image list
+          popd

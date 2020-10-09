@@ -7,8 +7,12 @@ You can build Coredns image via source code of Corends for this case you need to
 $ cd $GOPATH
 $ git clone https://github.com/coredns/coredns
 $ cd coredns
+$ git checkout v1.7.1
 $ echo fanmerge:github.com/andrew-edgar/fanmerge >> plugin.cfg
 $ make
+$ cp /Users/aedgar/workspace/coligo/coredns/fanmerge/coredns/Makefile.release .
+$ make -f Makefile.release release
+$ make -f Makefile.release docker
 ```
 
 #### Build via custom `main.go` file
