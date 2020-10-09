@@ -24,7 +24,6 @@ jobs:
   public: true
   plan:
   - get: fanmerge
-    trigger: true
   - get: rc-coligo-base-build-image
   - task: do-build
     image: rc-coligo-base-build-image
@@ -55,11 +54,11 @@ jobs:
             echo fanmerge:github.com/andrew-edgar/fanmerge >> plugin.cfg
             make
           popd
-          cp fanmerge/coredns/Makefile.release $GOPATH/coredns
-          pushd $GOPATH
+          cp fanmerge/coredns/buildResources/Makefile.release $GOPATH/coredns
+          pushd $GOPATH/coredns
             make -f Makefile.release release
             make -f Makefile.release docker
 
             docker login -u iamapikey -p $DOCKER_API_KEY us.icr.io
-            docker image list
+            docker push us.icr.io/codeengine-relint/coredns:coredns-amd64
           popd
