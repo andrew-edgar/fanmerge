@@ -4,12 +4,6 @@ resources:
   type: git
   source:
     uri: https://github.com/andrew-edgar/fanmerge
-# - name: git-deploy-scripts
-#   source:
-#     branch: main
-#     private_key: ((git-private-key))
-#     uri: git@github.ibm.com:coligo/deploy-scripts.git
-#   type: git
 - check_every: 1h
   name: rc-coligo-base-build-image
   source:

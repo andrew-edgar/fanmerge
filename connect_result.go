@@ -40,7 +40,7 @@ func mergeResponse(left, right *response) *response {
 		return pruneCNames(left)
 	}
 	if left.err != nil {
-		return nil
+		return pruneCNames(right)
 	}
 	if right.response == nil {
 		return pruneCNames(left)
