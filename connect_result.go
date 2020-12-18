@@ -55,6 +55,12 @@ func mergeResponse(left, right *response) *response {
 			// rand.Shuffle(len(left.response.Answer), func(i, j int) { left.response.Answer[i], left.response.Answer[j] = left.response.Answer[j], left.response.Answer[i]})
 			return pruneCNames(left)
 	}
+	if (left.response.MsgHdr.Rcode == dns.RcodeSuccess) {
+		return pruneCNames(left)
+	}
+	if (right.response.MsgHdr.Rcode == dns.RcodeSuccess) {
+		return pruneCNames(right)
+	}
 	return nil
 }
 

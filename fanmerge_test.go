@@ -252,6 +252,7 @@ func (t *fanmergeTestSuite) TestTwoServersUnsuccessfulResponse() {
 		req.SetQuestion(testQuery, dns.TypeA)
 		_, err := f.ServeDNS(context.TODO(), writer, req)
 		t.Nil(err)
+		t.Len(writer.answers, i+1)
 	}
 	for _, m := range writer.answers {
 		t.Equal(m.MsgHdr.Rcode, dns.RcodeSuccess)
