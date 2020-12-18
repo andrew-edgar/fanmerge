@@ -5,10 +5,10 @@ resources:
   source:
     uri: https://github.com/andrew-edgar/fanmerge
 - check_every: 1h
-  name: pipeline-image
+  name: rc-coligo-base-build-image
   source:
     password: ((concourse-ci-bot-apikey))
-    repository: uk.icr.io/concourse/kubecf-base-image
+    repository: uk.icr.io/concourse/coligo-base-build-image
     tag: latest
     username: iamapikey
   type: docker-image
@@ -18,9 +18,9 @@ jobs:
   public: true
   plan:
   - get: fanmerge
-  - get: pipeline-image
+  - get: rc-coligo-base-build-image
   - task: do-build
-    image: pipeline-image
+    image: rc-coligo-base-build-image
     params:
       DOCKER_API_KEY: ((coligo-test-apikey))
     privileged: true
