@@ -23,8 +23,8 @@ import (
 	"strings"
 	"time"
 
-	"github.com/codedns/caddy"
-	"github.com/codedns/caddy/caddyfile"
+	"github.com/coredns/caddy"
+	"github.com/coredns/caddy/caddyfile"
 	"github.com/coredns/coredns/core/dnsserver"
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/pkg/parse"
