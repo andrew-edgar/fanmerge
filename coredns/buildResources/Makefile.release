@@ -78,7 +78,7 @@ docker: docker-build
 
 .PHONY: pre
 pre:
-	GO111MODULE=off go get github.com/estesp/manifest-tool
+	#GO111MODULE=off go get github.com/estesp/manifest-tool
 
 .PHONY: build
 build:
