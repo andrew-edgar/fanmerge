@@ -56,7 +56,7 @@ ifeq (, $(shell which curl))
     $(error "No curl in $$PATH, please install")
 endif
 
-DOCKER:=us.icr.io/codeengine-relint
+DOCKER:=us.icr.io/ibm-kubecf
 NAME:=coredns
 VERSION:=$(shell grep 'CoreVersion' coremain/version.go | awk '{ print $$3 }' | tr -d '"')
 GITHUB:=coredns

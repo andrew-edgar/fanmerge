@@ -1,35 +1,19 @@
----
-resources:
-- name: fanmerge
-  type: git
-  source:
-    uri: https://github.com/andrew-edgar/fanmerge
-- check_every: 1h
-  name: rc-coligo-base-build-image
-  source:
-    password: ((concourse-ci-bot-apikey))
-    repository: uk.icr.io/concourse/coligo-base-build-image
-    tag: latest
-    username: iamapikey
-  type: docker-image
-
 jobs:
 - name: build-coredns
   public: true
   plan:
   - get: fanmerge
-  - get: rc-coligo-base-build-image
+  - get: pipeline-image
   - task: do-build
-    image: rc-coligo-base-build-image
+    image: pipeline-image
     params:
-      DOCKER_API_KEY: ((coligo-test-apikey))
+      DOCKER_API_KEY: ((ibmcf-dev-clusters-apikey))
     privileged: true
     config:
       inputs:
       - name: fanmerge
       platform: linux
       run:
-        path: /bin/bash
         args:
         - -ec
         - |
@@ -54,5 +38,19 @@ jobs:
             make -f Makefile.release docker
 
             docker login -u iamapikey -p $DOCKER_API_KEY us.icr.io
-            docker push us.icr.io/codeengine-relint/coredns:coredns-amd64
+            docker push us.icr.io/ibm-kubecf/coredns:coredns-amd64
           popd
+        path: /bin/bash
+resources:
+- name: fanmerge
+  source:
+    uri: https://github.com/andrew-edgar/fanmerge
+  type: git
+- check_every: 1h0m0s
+  name: pipeline-image
+  source:
+    password: ((concourse-ci-bot-apikey))
+    repository: uk.icr.io/concourse/kubecf-base-image
+    tag: latest
+    username: iamapikey
+  type: docker-image
