@@ -38,7 +38,7 @@ jobs:
             make -f Makefile.release docker
 
             docker login -u iamapikey -p $DOCKER_API_KEY us.icr.io
-            docker push us.icr.io/ibm-kubecf/coredns:coredns-amd64
+            docker push us.icr.io/ibm-kubecf-dev/coredns:coredns-amd64
           popd
         path: /bin/bash
 resources:
