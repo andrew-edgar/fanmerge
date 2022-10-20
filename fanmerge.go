@@ -20,8 +20,8 @@ import (
 	"context"
 	"crypto/tls"
 	"errors"
-	"time"
 	"math/rand"
+	"time"
 
 	"github.com/coredns/coredns/plugin"
 	"github.com/coredns/coredns/plugin/debug"
@@ -146,6 +146,7 @@ func (f *Fanmerge) processClient(ctx context.Context, c Client, r *request.Reque
 		}
 		msg, err := c.Request(ctx, r)
 		if err == nil {
+			log.Debug("Response received [ " + msg + " ]")
 			return &response{client: c, response: msg, start: start, err: err}
 		}
 		if f.attempts != 0 {
