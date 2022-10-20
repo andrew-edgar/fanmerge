@@ -146,6 +146,7 @@ func (f *Fanmerge) processClient(ctx context.Context, c Client, r *request.Reque
 		}
 		msg, err := c.Request(ctx, r)
 		if err == nil {
+			# try to add some debugging here!
 			log.Debug("Response received [ " + msg.String() + " ]")
 			return &response{client: c, response: msg, start: start, err: err}
 		}
